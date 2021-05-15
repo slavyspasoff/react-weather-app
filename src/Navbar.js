@@ -1,0 +1,91 @@
+import React, { useState, useEffect } from 'react';
+import {
+    AppBar,
+    Toolbar,
+    Typography,
+    InputBase,
+    Grid,
+    Paper,
+} from '@material-ui/core';
+
+import SearchIcon from '@material-ui/icons/Search';
+import axios from 'axios';
+import { v4 as uuid } from 'uuid';
+
+import matchCountry from './helpers/matchCountry.helper';
+import styles from './styles/Navbar.styles';
+
+const useStyles = styles;
+
+export default function Navbar(props) {
+    const classes = useStyles();
+    const [search, setSearch] = useState('');
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get(
+                    `http://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=5&appid=7389f171db6a620eb2df6b6734b58d78`
+                );
+                setData(res.data);
+            } catch (e) {
+                setData([]);
+            }
+        };
+        fetchData();
+    }, [search]);
+
+    const searchResults = data.map((e, i) => (
+        <Paper
+            key={uuid()}
+            className={classes.searchResult}
+            value="potatoe"
+            onClick={(e) => {
+                const res = matchCountry(e.target.innerHTML, data);
+                console.log(e);
+            }}
+        >
+            {e.name} ({e.state && `${e.state}, `}
+            {e.country})
+        </Paper>
+    ));
+
+    return (
+        <div className={classes.root}>
+            <AppBar position="static" color="default">
+                <Toolbar>
+                    <Typography className={classes.title} variant="h6" noWrap>
+                        WeatherApp
+                    </Typography>
+                    <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                            <SearchIcon />
+                        </div>
+                        <InputBase
+                            placeholder="Search…"
+                            classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                            }}
+                            inputProps={{ 'aria-label': 'search' }}
+                            value={search}
+                            onChange={(e) => {
+                                setSearch(e.target.value);
+                            }}
+                        />
+                        <Grid
+                            container
+                            direction="column"
+                            justify="center"
+                            alignItems="flex-start"
+                            className={classes.searchContainer}
+                        >
+                            {searchResults}
+                        </Grid>
+                    </div>
+                </Toolbar>
+            </AppBar>
+        </div>
+    );
+}
