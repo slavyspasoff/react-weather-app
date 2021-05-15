@@ -15,7 +15,6 @@ function App() {
                     `https://api.openweathermap.org/data/2.5/onecall?lat=${location.lat}&lon=${location.lon}&appid=7211be16e55aa4ed73d3e5ed5cc194fe`
                 );
                 setData(res.data);
-                console.log(data);
             } catch (e) {
                 console.log(e);
             }
@@ -31,7 +30,7 @@ function App() {
                 <Route
                     exact
                     path="/"
-                    render={() => <Homepage location={data} />}
+                    render={() => <Homepage data={data} location={location} />}
                 />
             </Switch>
         </>

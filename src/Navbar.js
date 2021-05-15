@@ -23,17 +23,20 @@ export default function Navbar(props) {
     const [data, setData] = useState([]);
 
     useEffect(() => {
+        const source = axios.CancelToken.source();
         const fetchData = async () => {
             try {
                 const res = await axios.get(
-                    `http://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=5&appid=7211be16e55aa4ed73d3e5ed5cc194fe`
+                    `http://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=5&appid=7211be16e55aa4ed73d3e5ed5cc194fe`,
+                    { cancelToken: source.token }
                 );
                 setData(res.data);
             } catch (e) {
                 setData([]);
             }
         };
-        fetchData();
+        search.length > 2 && fetchData();
+        return () => source.cancel();
     }, [search]);
 
     const searchResults = data.map((e) => (
@@ -43,6 +46,7 @@ export default function Navbar(props) {
             onClick={(e) => {
                 const res = matchCountry(e.target.innerHTML, data);
                 props.setLocation(res);
+                setSearch('');
             }}
         >
             {e.name} ({e.state && `${e.state}, `}
