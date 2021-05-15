@@ -26,7 +26,7 @@ export default function Navbar(props) {
         const fetchData = async () => {
             try {
                 const res = await axios.get(
-                    `http://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=5&appid=7389f171db6a620eb2df6b6734b58d78`
+                    `http://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=5&appid=7211be16e55aa4ed73d3e5ed5cc194fe`
                 );
                 setData(res.data);
             } catch (e) {
@@ -36,14 +36,13 @@ export default function Navbar(props) {
         fetchData();
     }, [search]);
 
-    const searchResults = data.map((e, i) => (
+    const searchResults = data.map((e) => (
         <Paper
             key={uuid()}
             className={classes.searchResult}
-            value="potatoe"
             onClick={(e) => {
                 const res = matchCountry(e.target.innerHTML, data);
-                console.log(e);
+                props.setLocation(res);
             }}
         >
             {e.name} ({e.state && `${e.state}, `}

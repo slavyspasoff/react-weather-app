@@ -1,10 +1,10 @@
 import React from 'react';
 
 export default function Homepage(props) {
-    console.log(props.location);
+    const { data } = props;
     return (
         <div>
-            <h1>hi</h1>
+            <h1>{data?.timezone}</h1>
         </div>
     );
 }
