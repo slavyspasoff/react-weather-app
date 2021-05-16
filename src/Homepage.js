@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 
     chartContainer: {
         height: '20rem',
-        width: '45%',
+        width: '55%',
     },
 });
 
