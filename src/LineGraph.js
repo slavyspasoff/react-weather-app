@@ -4,35 +4,60 @@ import moment from 'moment';
 import { Line } from 'react-chartjs-2';
 
 export default function LineGraph(props) {
-    console.log(props.hourlyData);
+    const { data, location } = props;
     return (
         <Line
             options={{
                 responsive: true,
                 maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: `${location.name} Current Temp: ${(
+                            data.current.temp - 273
+                        ).toFixed(1)} C° `,
+                    },
+                },
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'temp in C',
+                        },
+                        // max: 30,
+                        // min: 0,
+                        ticks: {
+                            stepSize: 1,
+                        },
+                    },
+                },
             }}
             data={{
-                labels: props.hourlyData.map((e) =>
-                    moment(e.dt * 1000).format('hh:mm (DD/MM)')
-                ),
+                labels: data.hourly
+                    .map((e) => moment(e.dt * 1000).format('hh:mm (DD/MM)'))
+                    .slice(0, 24),
                 datasets: [
                     {
-                        label: 'Hourly Temp in C°',
-                        data: props.hourlyData.map((e) =>
-                            (e.temp - 273).toFixed(1)
-                        ),
+                        label: 'C°',
+                        data: data.hourly
+                            .map((e) => (e.temp - 273).toFixed(1))
+                            .slice(0, 24),
                         fill: false,
-                        backgroundColor: 'rgb(255, 0, 40)',
-                        borderColor: 'rgba(255, 99, 132, 0.2)',
+                        cubicInterpolationMode: 'default',
+                        backgroundColor: 'rgb(0, 255,0, 0.7)',
+                        borderColor: 'rgba(0, 255, 255, 0.4)',
+                        tension: '0.4',
                     },
                     {
-                        label: 'Hourly Feels Like Temp in C°',
-                        data: props.hourlyData.map((e) =>
-                            (e.feels_like - 273).toFixed(1)
-                        ),
+                        label: '(Feels Like) C°',
+                        data: data.hourly
+                            .map((e) => (e.feels_like - 273).toFixed(1))
+                            .slice(0, 24),
                         fill: false,
-                        backgroundColor: 'rgb(55, 110, 140)',
-                        borderColor: 'rgba(55, 199, 132, 0.2)',
+                        backgroundColor: 'rgb(255, 255, 0,0.7)',
+                        borderColor: 'rgba(255, 100, 100, 0.4)',
+                        cubicInterpolationMode: 'default',
+                        tension: '0.4',
                     },
                 ],
             }}
