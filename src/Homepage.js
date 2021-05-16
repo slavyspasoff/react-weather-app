@@ -1,41 +1,35 @@
 import React from 'react';
-import moment from 'moment';
-import { Line } from 'react-chartjs-2';
+import { makeStyles } from '@material-ui/styles';
+
+import LineGraph from './LineGraph';
+
+const useStyles = makeStyles({
+    chartContainer: {
+        height: '25rem',
+        width: '100%',
+    },
+});
+
 export default function Homepage(props) {
     const { data, location } = props;
     const hourlyData = data?.hourly || [];
+    const classes = useStyles();
     return (
         <div>
-            <h1>
+            <h1 style={{ display: 'inline' }}>
                 {data?.current?.temp &&
                     `The temperature in ${location.name}, ${
                         location.country
                     } is ${(data.current.temp - 273).toFixed(1)} C°`}
             </h1>
-            <div style={{ width: '1200px' }}>
-                {hourlyData.length > 0 && (
-                    <Line
-                        options={{
-                            maintainAspectRation: true,
-                        }}
-                        data={{
-                            labels: hourlyData.map((e) =>
-                                moment(e.dt * 1000).format('DD/MM hh:mm')
-                            ),
-                            datasets: [
-                                {
-                                    label: 'Hourly Temp in C°',
-                                    data: hourlyData.map((e) =>
-                                        (e.temp - 273).toFixed(1)
-                                    ),
-                                    fill: false,
-                                    backgroundColor: 'rgb(255, 99, 132)',
-                                    borderColor: 'rgba(255, 99, 132, 0.2)',
-                                },
-                            ],
-                        }}
-                    />
-                )}
+            {data && (
+                <img
+                    src={`http://openweathermap.org/img/wn/${data?.current?.weather[0]?.icon}.png`}
+                    alt="none"
+                />
+            )}
+            <div className={classes.chartContainer}>
+                {hourlyData.length > 0 && <LineGraph hourlyData={hourlyData} />}
             </div>
         </div>
     );
