@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import { Button } from '@material-ui/core';
 
-import { Line } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 
 export default function LineGraph(props) {
     const { data, location } = props;
