@@ -47,6 +47,7 @@ export default function Navbar(props) {
                 const res = matchCountry(e.target.innerHTML, data);
                 props.setLocation(res);
                 setSearch('');
+                setData([]);
             }}
         >
             {e.name} ({e.state && `${e.state}, `}
