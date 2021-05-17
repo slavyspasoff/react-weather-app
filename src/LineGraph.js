@@ -9,7 +9,6 @@ export default function LineGraph(props) {
     const [type, toggleType] = useState('hourly');
     const [lineOrBar, toggleLineOrBar] = useState('Line');
 
-    console.log(data.current.dt);
     const useToggle = () => {
         type === 'daily' ? toggleType('hourly') : toggleType('daily');
     };
