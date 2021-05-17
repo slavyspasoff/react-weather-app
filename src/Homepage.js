@@ -12,6 +12,7 @@ const useStyles = makeStyles({
         flexWrap: 'wrap',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#F7F5FB',
     },
 
     chartContainer: {

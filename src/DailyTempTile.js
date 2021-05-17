@@ -8,6 +8,8 @@ const useStyles = makeStyles({
         minWidth: 275,
         textAlign: 'center',
         margin: '0.5rem',
+        // backgroundColor: '#508999',
+        // color: 'white',
     },
     title: {
         fontSize: 14,
@@ -39,6 +41,9 @@ export default function DailyTempTile({ daily }) {
                 >
                     {moment(daily.dt * 1000).format('DD/MM')}
                 </Typography>
+                <img
+                    src={`http://openweathermap.org/img/wn/${daily.weather[0].icon}.png`}
+                />
                 <Typography variant="h5" component="h2">
                     {(daily.temp.day - 273).toFixed(1)}
                 </Typography>
