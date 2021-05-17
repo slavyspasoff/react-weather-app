@@ -7,9 +7,14 @@ import { Line, Bar } from 'react-chartjs-2';
 export default function LineGraph(props) {
     const { data, location } = props;
     const [type, toggleType] = useState('hourly');
+    const [lineOrBar, toggleLineOrBar] = useState('Line');
+
     console.log(data.current.dt);
     const useToggle = () => {
         type === 'daily' ? toggleType('hourly') : toggleType('daily');
+    };
+    const useLineOrBar = () => {
+        lineOrBar === 'Line' ? toggleLineOrBar('Bar') : toggleLineOrBar('Line');
     };
 
     const hourlyTemp = {
@@ -106,26 +111,49 @@ export default function LineGraph(props) {
 
     return (
         <>
-            <Line
-                options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: `${location.name} Current Temp: ${(
-                                data.current.temp - 273
-                            ).toFixed(1)} C° `,
+            {lineOrBar === 'Line' ? (
+                <Line
+                    options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: `${location.name} Current Temp: ${(
+                                    data.current.temp - 273
+                                ).toFixed(1)} C° `,
+                            },
                         },
-                    },
-                    scales:
-                        type === 'daily'
-                            ? dailyTemp.option.scale
-                            : hourlyTemp.option.scale,
-                }}
-                data={type === 'daily' ? dailyTemp.data : hourlyTemp.data}
-            />
+                        scales:
+                            type === 'daily'
+                                ? dailyTemp.option.scale
+                                : hourlyTemp.option.scale,
+                    }}
+                    data={type === 'daily' ? dailyTemp.data : hourlyTemp.data}
+                />
+            ) : (
+                <Bar
+                    options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: `${location.name} Current Temp: ${(
+                                    data.current.temp - 273
+                                ).toFixed(1)} C° `,
+                            },
+                        },
+                        scales:
+                            type === 'daily'
+                                ? dailyTemp.option.scale
+                                : hourlyTemp.option.scale,
+                    }}
+                    data={type === 'daily' ? dailyTemp.data : hourlyTemp.data}
+                />
+            )}
             <Button onClick={useToggle}>Toggle Daily/Hourly</Button>
+            <Button onClick={useLineOrBar}>Toggle Line/Bar</Button>
         </>
     );
 }
