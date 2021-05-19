@@ -5,7 +5,7 @@ import { makeStyles, Card, CardContent, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {
-        minWidth: 275,
+        flex: 1,
         textAlign: 'center',
         margin: '0.5rem',
         // backgroundColor: '#508999',

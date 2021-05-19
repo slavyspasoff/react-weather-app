@@ -14,6 +14,10 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         backgroundColor: '#F7F5FB',
     },
+    tailContainer: {
+        display: 'flex',
+        width: '100%',
+    },
 
     chartContainer: {
         height: '35%',
@@ -34,7 +38,7 @@ export default function Homepage(props) {
     console.log(dailyTiles);
     return (
         <div className={classes.root}>
-            {data && dailyTiles}
+            <div className={classes.tailContainer}>{data && dailyTiles}</div>
             <div className={classes.chartContainer}>
                 {data && <LineGraph data={data} location={location} />}
             </div>
