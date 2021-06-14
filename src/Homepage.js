@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-
+import { v4 as uuid } from 'uuid';
 import DailyTempTile from './DailyTempTile';
 import LineGraph from './LineGraph';
 
@@ -14,10 +14,6 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     backgroundColor: '#F7F5FB',
   },
-  tailContainer: {
-    display: 'flex',
-    width: '100%',
-  },
 
   chartContainer: {
     height: '35%',
@@ -28,17 +24,16 @@ const useStyles = makeStyles({
 
 export default function Homepage(props) {
   const { data, location } = props;
-  // console.log(data);
+  console.log(data);
   const classes = useStyles();
   const dailyTiles =
     data &&
     data.daily.map((e) => {
-      return <DailyTempTile daily={e} />;
+      return <DailyTempTile daily={e} key={uuid()} />;
     });
-  console.log(dailyTiles);
   return (
     <div className={classes.root}>
-      <div className={classes.tailContainer}>{data && dailyTiles}</div>
+      {data && dailyTiles}
       <div className={classes.chartContainer}>
         {data && <LineGraph data={data} location={location} />}
       </div>

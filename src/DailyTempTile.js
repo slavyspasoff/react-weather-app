@@ -5,11 +5,9 @@ import { makeStyles, Card, CardContent, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
-    flex: 1,
     textAlign: 'center',
     margin: '0.5rem',
-    // backgroundColor: '#508999',
-    // color: 'white',
+    flex: 1,
   },
   title: {
     fontSize: 14,
@@ -21,16 +19,17 @@ const useStyles = makeStyles({
 
 export default function DailyTempTile({ daily }) {
   const classes = useStyles();
-  // return (
-  //     <div className={classes.root}>
-  //         <h3>{(daily.temp.day - 273).toFixed(1)} C</h3>
-  //         <h3>{daily.weather[0].description}</h3>
-  //         <h3>{moment(daily.dt * 1000).format('DD/MM')}</h3>
-  //         <h3>{daily.rain} rain</h3>
-  //         <h3>{daily.clouds}% cloudy</h3>
-  //         <h3>{daily.humidity} humidity</h3>
-  //     </div>
-  // );
+  const cloudiness =
+    (daily.clouds < 20 && 'Sunny') ||
+    (daily.clouds < 50 && 'Partly Sunny') ||
+    (daily.clouds < 70 && 'Mostly Cloudy') ||
+    'Cloudy';
+  const rainProbability =
+    (daily.rain < 20 && 'Slight chance of raining') ||
+    (daily.rain < 35 && 'Some change of rain') ||
+    (daily.rain < 50 && 'Good change of rain') ||
+    'High change of rain';
+
   return (
     <Card className={classes.root}>
       <CardContent>
@@ -45,13 +44,16 @@ export default function DailyTempTile({ daily }) {
           src={`http://openweathermap.org/img/wn/${daily.weather[0].icon}.png`}
         />
         <Typography variant="h5" component="h2">
-          {(daily.temp.day - 273).toFixed(1)}
+          {daily.temp.day.toFixed(1)}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
           {daily.weather[0].description}
         </Typography>
         <Typography variant="body2" component="p">
-          {daily.clouds}% cloudy
+          {cloudiness} with
+        </Typography>
+        <Typography variant="body2" component="p">
+          {rainProbability}
         </Typography>
       </CardContent>
     </Card>

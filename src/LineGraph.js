@@ -39,7 +39,7 @@ export default function LineGraph(props) {
       datasets: [
         {
           label: 'C°',
-          data: data.hourly.map((e) => (e.temp - 273).toFixed(1)).slice(0, 24),
+          data: data.hourly.map((e) => e.temp.toFixed(1)).slice(0, 24),
           fill: false,
           cubicInterpolationMode: 'default',
           backgroundColor: 'rgba(75, 101, 132,0.9)',
@@ -82,7 +82,7 @@ export default function LineGraph(props) {
       datasets: [
         {
           label: 'Daily Temp (C°)',
-          data: data.daily.map((e) => (e.temp.day - 273).toFixed(1)),
+          data: data.daily.map((e) => e.temp.day.toFixed(1)),
           fill: false,
           cubicInterpolationMode: 'default',
           backgroundColor: 'rgba(247, 212, 188,0.9)',
@@ -91,7 +91,7 @@ export default function LineGraph(props) {
         },
         {
           label: 'Nightly Temp (C°)',
-          data: data.daily.map((e) => (e.temp.night - 273).toFixed(1)),
+          data: data.daily.map((e) => e.temp.night.toFixed(1)),
           fill: false,
           backgroundColor: 'rgba(40, 47, 68,0.9)',
           borderColor: 'rgba(40, 47, 68,1.0)',
@@ -112,9 +112,9 @@ export default function LineGraph(props) {
             plugins: {
               title: {
                 display: true,
-                text: `${location.name} Current Temp: ${(
-                  data.current.temp - 273
-                ).toFixed(1)} C° `,
+                text: `${
+                  location.name
+                } Current Temp: ${data.current.temp.toFixed(1)} C° `,
               },
             },
             scales:
@@ -132,9 +132,9 @@ export default function LineGraph(props) {
             plugins: {
               title: {
                 display: true,
-                text: `${location.name} Current Temp: ${(
-                  data.current.temp - 273
-                ).toFixed(1)} C° `,
+                text: `${
+                  location.name
+                } Current Temp: ${data.current.temp.toFixed(1)} C° `,
               },
             },
             scales:
